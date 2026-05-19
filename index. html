@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nuestras Citas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+:root{
+  --bg:#f6f1e7;
+  --card:#fffaf2;
+  --text:#2b1b12;
+  --gold:#b99458;
+  --gold-soft:#d8c19a;
+  --rose:#bb6b7a;
+  --brown:#5a3727;
+  --shadow:rgba(0,0,0,.12);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  padding:30px 18px 60px;
+}
+
+.container{
+  max-width:780px;
+  margin:auto;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.hero small{
+  letter-spacing:5px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+
+.hero h1{
+  font-family:'Great Vibes',cursive;
+  font-size:72px;
+  font-weight:400;
+  color:var(--brown);
+  margin-top:10px;
+}
+
+.hero p{
+  margin-top:12px;
+  color:#7c6658;
+  font-size:15px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid #eadfcf;
+  border-radius:24px;
+  padding:35px;
+  box-shadow:0 10px 35px var(--shadow);
+}
+
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;
+  text-align:center;
+  color:var(--brown);
+  margin-bottom:28px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.group{
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  margin-bottom:8px;
+  color:#7d6656;
+  font-size:13px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid #e2d5c3;
+  background:#fff;
+  font-size:15px;
+  outline:none;
+  transition:.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--gold);
+}
+
+textarea{
+  resize:none;
+  min-height:120px;
+}
+
+button{
+  width:100%;
+  border:none;
+  background:linear-gradient(135deg,var(--brown),#2d160c);
+  color:#fff7e9;
+  padding:18px;
+  border-radius:16px;
+  cursor:pointer;
+  font-size:15px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  transition:.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+.games{
+  margin-top:35px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+}
+
+.game{
+  background:#fff;
+  border:1px solid #eadfcf;
+  padding:22px;
+  border-radius:20px;
+  text-align:center;
+}
+
+.game span{
+  font-size:34px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.game h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.game p{
+  font-size:14px;
+  color:#7d6656;
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#2d160c;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:12px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:.3s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:58px;
+  }
+
+  .card{
+    padding:24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <small>Solo para ustedes</small>
+    <h1>Nuestras Citas</h1>
+    <p>Un espacio privado para compartir momentos especiales.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="section-title">Invitar a una cita 💌</div>
+
+    <div class="group">
+      <label>¿Quién invita?</label>
+      <select id="sender">
+        <option value="Elian">Elian</option>
+        <option value="Yhoselin">Yhoselin</option>
+      </select>
+    </div>
+
+    <div class="grid">
+      <div class="group">
+        <label>Fecha</label>
+        <input type="date" id="date">
+      </div>
+
+      <div class="group">
+        <label>Hora</label>
+        <input type="time" id="time">
+      </div>
+    </div>
+
+    <div class="group">
+      <label>Plan</label>
+      <input type="text" id="place" placeholder="Cena, paseo, película, café...">
+    </div>
+
+    <div class="group">
+      <label>Mensaje</label>
+      <textarea id="message" placeholder="Escribe algo bonito y natural..."></textarea>
+    </div>
+
+    <div class="group">
+      <label>Ambiente</label>
+      <select id="vibe">
+        <option value="romantico">Romántico 🌹</option>
+        <option value="dulce">Tranquilo 🍰</option>
+        <option value="aventura">Aventura 🌿</option>
+        <option value="elegante">Elegante ✨</option>
+      </select>
+    </div>
+
+    <button onclick="sendInvitation()" id="sendBtn">
+      Enviar invitación 💌
+    </button>
+
+  </div>
+
+  <div class="games">
+
+    <div class="game">
+      <span>🃏</span>
+      <h3>Verdad o reto</h3>
+      <p>Preguntas divertidas y momentos íntimos para compartir juntos.</p>
+    </div>
+
+    <div class="game">
+      <span>🎡</span>
+      <h3>Ruleta</h3>
+      <p>Ideas aleatorias para una cita distinta cada vez.</p>
+    </div>
+
+    <div class="game">
+      <span>💞</span>
+      <h3>Memoria</h3>
+      <p>Un pequeño juego romántico para los dos.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const emailConfig = {
+  sharedEmail: 'elianyhos92@gmail.com',
+  publicKey: 'CgdscwW85CxOt9IHB',
+  serviceId: 'service_c2msv6j',
+  templateId: 'template_cfn5v8w'
+};
+
+emailjs.init(emailConfig.publicKey);
+
+const vibeData = {
+  romantico:{
+    emoji:'🌹',
+    opening:'Hoy pensé mucho en ti y me dieron ganas de invitarte a salir.',
+    closing:'Con mucho cariño'
+  },
+
+  dulce:{
+    emoji:'🍰',
+    opening:'Solo quiero compartir un momento tranquilo contigo.',
+    closing:'Con amor'
+  },
+
+  aventura:{
+    emoji:'🌿',
+    opening:'Tengo ganas de hacer algo bonito contigo y pasarla bien juntos.',
+    closing:'Te veo pronto'
+  },
+
+  elegante:{
+    emoji:'✨',
+    opening:'Me gustaría invitarte a una cita especial contigo.',
+    closing:'Te espero'
+  }
+};
+
+const randomPhrases = [
+  'Me hace ilusión pasar tiempo contigo.',
+  'Cada salida contigo termina siendo un recuerdo bonito.',
+  'Solo quiero desconectarme contigo un rato.',
+  'Pensé en ti y quise organizar algo juntos.',
+  'Creo que nos merecemos un momento bonito.'
+];
+
+function toast(message){
+  const t = document.getElementById('toast');
+  t.textContent = message;
+  t.classList.add('show');
+
+  setTimeout(()=>{
+    t.classList.remove('show');
+  },3000);
+}
+
+async function sendInvitation(){
+
+  const sender = document.getElementById('sender').value;
+  const receiver = sender === 'Elian' ? 'Yhoselin' : 'Elian';
+
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+  const place = document.getElementById('place').value;
+  const message = document.getElementById('message').value;
+  const vibe = document.getElementById('vibe').value;
+
+  if(!date){
+    toast('Selecciona una fecha');
+    return;
+  }
+
+  const vibeInfo = vibeData[vibe];
+
+  const phrase = message || randomPhrases[Math.floor(Math.random()*randomPhrases.length)];
+
+  const dateFormatted = new Date(date+'T12:00').toLocaleDateString('es-ES',{
+    weekday:'long',
+    day:'numeric',
+    month:'long',
+    year:'numeric'
+  });
+
+  const button = document.getElementById('sendBtn');
+
+  button.disabled = true;
+  button.textContent = 'Enviando...';
+
+  const letterHtml = `
+
+<div style="font-family:Georgia,serif;max-width:560px;margin:auto;background:#fffaf2;padding:35px;border-radius:10px;border:1px solid #e7d8b5;color:#2c1a0e;">
+
+  <div style="text-align:center;margin-bottom:25px;">
+    <div style="font-size:40px;">💌</div>
+
+    <h2 style="margin:10px 0 0;color:#b46b7a;font-weight:normal;">
+      Invitación especial
+    </h2>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;">
+    Hola <strong>${receiver}</strong>,
+  </p>
+
+  <p style="font-size:16px;line-height:1.9;">
+    ${vibeInfo.opening}
+  </p>
+
+  <p style="font-size:16px;line-height:1.9;">
+    Me gustaría invitarte el <strong>${dateFormatted}</strong>
+    ${time ? ' a las <strong>' + time + '</strong>' : ''}
+    para pasar un momento bonito juntos.
+  </p>
+
+  <p style="font-size:16px;line-height:1.9;">
+    Plan: <strong>${place || 'Una salida especial'}</strong> ${vibeInfo.emoji}
+  </p>
+
+  <p style="font-size:16px;line-height:1.9;">
+    ${phrase}
+  </p>
+
+  <p style="font-size:16px;line-height:1.9;margin-top:30px;">
+    Ojalá podamos crear otro recuerdo bonito juntos.
+  </p>
+
+  <div style="margin-top:35px;text-align:right;">
+    <p style="margin:0;font-size:16px;">${vibeInfo.closing}</p>
+    <strong style="font-size:18px;color:#8b6346;">${sender}</strong>
+  </div>
+
+</div>
+`;
+
+  const params = {
+    to_email: emailConfig.sharedEmail,
+    sender_name: sender,
+    receiver_name: receiver,
+    date_formatted: dateFormatted,
+    time_formatted: time,
+    place: place,
+    personal_message: phrase,
+    vibe_emoji: vibeInfo.emoji,
+    letter_html: letterHtml
+  };
+
+  try{
+
+    await emailjs.send(
+      emailConfig.serviceId,
+      emailConfig.templateId,
+      params
+    );
+
+    toast('Invitación enviada 💌');
+
+    document.getElementById('place').value = '';
+    document.getElementById('message').value = '';
+
+  }catch(error){
+
+    console.error(error);
+    toast('Ocurrió un error al enviar');
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = 'Enviar invitación 💌';
+  }
+}
+
+</script>
+
+</body>
+</html>
